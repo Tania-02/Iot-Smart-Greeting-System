@@ -1,0 +1,78 @@
+  <html>
+  <head>
+  <title>Light Detector!!!</title>
+  <script src='http://code.jquery.com/jquery-1.12.4.js' type='text/javascript'></script>
+  <link rel='stylesheet' href='style.css'>
+  </head>
+  <h1 style='font-size:275%;'><b>Light Detector!!!<b></h1> 
+  <body  background='internet_of_things_zero-hero-image-v1.jpg'>
+ <br><br>
+ <h1 style='display:inline; align:left'><button id ='chk' >CHECK</button></a></h1>&nbsp;&nbsp;
+  <h1 style='display:inline; align:left'><button id='shw'>SHOW</button></h1>&nbsp;&nbsp;
+ <h1 style='display:inline; align:left'><button id ='clr'>CLEAR</button></a></h1>
+ <br><br><br>
+ <font color="white" size="5"><b>Light Sensing Data ::&nbsp;&nbsp;</b></font><span id='light' style='color:white;' size="5"></span>
+  <br><br><br>
+<font color="white" size="5"><b>Time ::&nbsp;&nbsp;</b></font><span id='time' style='color:white;' size="5"></span>
+ <br><br><br>
+  <script>document.getElementById("time").innerHTML = Date();</script>
+  <font color="white" size="5"><b>Status ::-- <b></font>
+   <br><span id='status' style='color:white'></span></br>
+ <button style='position: absolute; right: 50; bottom :50;' id='back' onclick='goBack()'>BACK</button>
+
+   <script>
+  
+            $(document).on('click', '#chk', function(){ 
+            setInterval(function()
+                {    
+                  var a = {"show":"1"};
+                    $.ajax({  
+                             url   : 'ldetect.php',
+                           method  : 'GET',
+                            data   : a,
+                       success : function(result) 
+                           {
+                             console.log(result);
+                             $('#light').empty().append(result);
+                               }
+                            });  
+               },3000);
+          });
+
+            $(document).on('click', '#shw', function(){     
+               var k = {'disp':1};
+                     $.ajax({   
+                            url     : 'ldetect.php',
+                            method  : 'GET',
+                            data    : k,
+                            success : function(result)
+                                {
+                                 var a=result.split('\n');
+                                 for (i in a)  
+                                  $('#status').append('<br>').append(a[i]);
+                                }
+                           });
+                      });
+
+             $(document).on('click', '#clr', function(){ 
+                   var k = {'clear':1};
+                        $.ajax({ 
+                             url     : 'ldetect.php',
+                             method  : 'GET',
+                             data    : k,
+                             success : function(result)
+                                {
+                                 alert('All Data Deleted successfully!!')
+                                  $('#status').empty();
+                                }
+                              });
+                          });
+
+  
+  function goBack() {
+    window.history.back();
+        }
+    </script>
+ </body>
+ </html>
+
